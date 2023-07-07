@@ -2,7 +2,6 @@ import { Chip, Grid } from "@mui/material";
 import { useState } from "react";
 import { filterVoices, filterVoicesValue, selectIcon } from "../../../../utils/utils";
 import styles from "./HorizontalTile.module.scss";
-import { makeStyles } from "@mui/styles";
 import CustomChip from "../../atoms/chip/CustomChip";
 
 interface FilterChipsProps {
