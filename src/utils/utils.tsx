@@ -67,7 +67,7 @@ export const mergeArrays = (
   film: IFilm[],
   starship: IStarship[]
 ): IGenericTile[] => {
-  const mergedArray: IGenericTile[] = [];
+  let mergedArray: IGenericTile[] = [];
 
   planets.forEach((item) => {
     const mergedItem: IGenericTile = {
@@ -152,6 +152,8 @@ export const mergeArrays = (
 
     mergedArray.push(mergedItem);
   });
+
+  mergedArray = mergedArray.map((m, index) => {return {...m, id: index.toString()}});
 
   return mergedArray;
 };

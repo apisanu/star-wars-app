@@ -4,15 +4,18 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import AppRouter from "./AppRouter";
 import { Container } from "@mui/material";
+import AppContext from "./AppContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Container>
-      <AppRouter />
-    </Container>
+    <AppContext.Provider value={[]}>
+      <Container>
+        <AppRouter />
+      </Container>
+    </AppContext.Provider>
   </React.StrictMode>
 );
 

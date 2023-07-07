@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as Api from "../../../../core/api/Api";
 import _ from "lodash";
 import { IFilm } from "../../../../core/interfaces/IFilm";
@@ -16,6 +16,8 @@ import {
   selectIcon,
 } from "../../../../utils/utils";
 import { IGenericTile } from "../../../../core/interfaces/IGenericTile";
+import { useNavigate } from 'react-router-dom';
+
 
 const ITEMS_PER_PAGE = 10;
 
@@ -29,6 +31,7 @@ const DashboardPanel: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentFilter, setCurrentFilter] = useState<IGenericTile[]>([]);
   const [defaultFilter, setDefaultFilter] = useState<IGenericTile[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([
@@ -97,6 +100,13 @@ const DashboardPanel: React.FC = () => {
     setCurrentPage(page);
   };
 
+  const handleGoToDetail = (id: string | undefined) => {
+    console.log(currentItems)
+    if (id?.toString()) {
+      navigate(`/detail/${id}`);
+    }
+  };
+
   return (
     <Grid container justifyContent="center">
       <div className="dashboard-panel">
@@ -104,6 +114,7 @@ const DashboardPanel: React.FC = () => {
         <>
           {currentItems.map((p) => (
             <Tile
+              onClick={() => handleGoToDetail(p.id)}
               icon={selectIcon(p.type)}
               info1={p.info1}
               info2={p.info2}
