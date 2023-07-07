@@ -10,6 +10,9 @@ import { IVehicle } from "../../../../core/interfaces/IVehicle";
 import FilterChips from "../../molecules/filterList/FilterList";
 import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
+import Tile from "../../atoms/tile/Tile";
+import { mergeArrays, selectIcon } from "../../../../utils/utils";
+import { IGenericTile } from "../../../../core/interfaces/IGenericTile";
 
 const DashboardPanel: React.FC = () => {
   const [planets, setPlanets] = useState<IPlanet[]>([]);
@@ -17,8 +20,9 @@ const DashboardPanel: React.FC = () => {
   const [vehicles, setVehicles] = useState<IVehicle[]>([]);
   const [films, setFilms] = useState<IFilm[]>([]);
   const [species, setSpecies] = useState<ISpecie[]>([]);
-  const [starship, setStarship] = useState<IStarship[]>([]);
+  const [starships, setStarships] = useState<IStarship[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentFilter, setCurrentFilter] = useState<IGenericTile[]>([])
 
   useEffect(() => {
     Api.Planets.find().then((res) =>
@@ -31,7 +35,7 @@ const DashboardPanel: React.FC = () => {
       setVehicles(res.resources.map((m) => m.value))
     );
     Api.Starships.find().then((res) =>
-      setStarship(res.resources.map((m) => m.value))
+      setStarships(res.resources.map((m) => m.value))
     );
     Api.Films.find().then((res) => setFilms(res.resources.map((m) => m.value)));
     Api.Species.find().then((res) =>
@@ -40,14 +44,24 @@ const DashboardPanel: React.FC = () => {
   }, []);
 
   const handleChipClick = (value: string) => {
-    console.log("Chip selezionata:", value);
+    setCurrentFilter(mergeArrays(planets, species, people, vehicles, films, starships).filter(i => i.type === value));
   };
 
   return (
     <Grid container justifyContent="center">
       <div className="dashboard-panel">
         <FilterChips onChipClick={handleChipClick} />
-        
+        {currentFilter.map((p) => (
+          <Tile
+            icon={selectIcon(p.type)}
+            info1={p.info1}
+            info2={p.info2}
+            info3={p.info3}
+            info4={p.info4}
+            info5={p.info5}
+            info6={p.info6}
+          />
+        ))}
       </div>
     </Grid>
   );
