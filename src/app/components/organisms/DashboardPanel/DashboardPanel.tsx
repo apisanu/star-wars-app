@@ -7,8 +7,9 @@ import { IPlanet } from "../../../../core/interfaces/IPlanet";
 import { ISpecie } from "../../../../core/interfaces/ISpecie";
 import { IStarship } from "../../../../core/interfaces/IStarship";
 import { IVehicle } from "../../../../core/interfaces/IVehicle";
-import CustomButton from "../../atoms/button/CustomButton";
-import Navbar from "../../molecules/navbar/Navbar";
+import FilterChips from "../../molecules/filterList/FilterList";
+import { Box } from "@mui/system";
+import { Grid } from "@mui/material";
 
 const DashboardPanel: React.FC = () => {
   const [planets, setPlanets] = useState<IPlanet[]>([]);
@@ -38,16 +39,18 @@ const DashboardPanel: React.FC = () => {
     );
   }, []);
 
-  const [open, setOpen] = useState(false);
-
-  const handleToggle = () => {
-    setOpen(!open);
+  const handleChipClick = (value: string) => {
+    console.log("Chip selezionata:", value);
   };
 
-  return <div className="dashboard-panel">
-    <CustomButton text="Toggle Navbar" onPress={handleToggle}></CustomButton>
-    <Navbar open={open} onClose={handleToggle} />
-  </div>;
+  return (
+    <Grid container justifyContent="center">
+      <div className="dashboard-panel">
+        <FilterChips onChipClick={handleChipClick} />
+        
+      </div>
+    </Grid>
+  );
 };
 
 export default DashboardPanel;
