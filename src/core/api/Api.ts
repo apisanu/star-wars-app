@@ -2,6 +2,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { ResourcesType } from '../enum/Resource';
 import { IFilm } from '../interfaces/IFilm';
+import { IGenericDetailElement } from '../interfaces/IGenericDetail';
 import { IPeople } from '../interfaces/IPeople';
 import { IPlanet } from '../interfaces/IPlanet';
 import { ISpecie } from '../interfaces/ISpecie';
@@ -131,7 +132,7 @@ function collectionBuilder < T > (resource: ResourcesType) {
   }
 }
 
-export const getOne = async (type: string | null, id: string | undefined) => {
+export const getOne = async (type: string | null, id: string | undefined): Promise<IGenericDetailElement> => {
   const headers = {
     accept: "application/json"
   };
@@ -140,10 +141,14 @@ export const getOne = async (type: string | null, id: string | undefined) => {
     headers: headers
   };
 
+  //TODO Handle errors and "type = null" case
   const url = `https://swapi.dev/api/${type}/${id}`
 
   const response = await axios.get(url, config);
-  const result = response.data;
+  return {
+    type: type ? type : '',
+    data: response.data
+  };
 }
 
 

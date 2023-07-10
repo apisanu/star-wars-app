@@ -91,6 +91,7 @@ export const mergeArrays = (
   let mergedArray: IGenericTile[] = [];
 
   planets.forEach((item, i) => {
+    const id = getLastNumber(item.url);
     const mergedItem: IGenericTile = {
       section: [
         item.name,
@@ -100,14 +101,15 @@ export const mergeArrays = (
         item.population,
         item.surface_water,
       ],
-      id: i.toString(),
+      id,
       type: filterVoicesValue.PLANETS,
     };
 
     mergedArray.push(mergedItem);
   });
 
-  species.forEach((item) => {
+  species.forEach((item, i) => {
+    const id = getLastNumber(item.url);
     const mergedItem: IGenericTile = {
       section: [
         item.name,
@@ -117,13 +119,15 @@ export const mergeArrays = (
         item.classification,
         item.average_height,
       ],
+      id,
       type: filterVoicesValue.SPECIES,
     };
 
     mergedArray.push(mergedItem);
   });
 
-  vehicle.forEach((item) => {
+  vehicle.forEach((item, i) => {
+    const id = getLastNumber(item.url);
     const mergedItem: IGenericTile = {
       section: [
         item.name,
@@ -133,13 +137,15 @@ export const mergeArrays = (
         item.cost_in_credits,
         item.consumables,
       ],
+      id,
       type: filterVoicesValue.VEHICLES,
     };
 
     mergedArray.push(mergedItem);
   });
 
-  people.forEach((item) => {
+  people.forEach((item, i) => {
+    const id = getLastNumber(item.url);
     const mergedItem: IGenericTile = {
       section: [
         item.name,
@@ -149,13 +155,15 @@ export const mergeArrays = (
         item.height,
         item.gender,
       ],
+      id,
       type: filterVoicesValue.PEOPLE,
     };
 
     mergedArray.push(mergedItem);
   });
 
-  film.forEach((item) => {
+  film.forEach((item, i) => {
+    const id = getLastNumber(item.url);
     const mergedItem: IGenericTile = {
       section: [
         item.director,
@@ -165,13 +173,15 @@ export const mergeArrays = (
         item.title,
         item.url,
       ],
+      id,
       type: filterVoicesValue.FILMS,
     };
 
     mergedArray.push(mergedItem);
   });
 
-  starship.forEach((item) => {
+  starship.forEach((item, i) => {
+    const id = getLastNumber(item.url);
     const mergedItem: IGenericTile = {
       section: [
         item.cargo_capacity,
@@ -181,6 +191,7 @@ export const mergeArrays = (
         item.model,
         item.passengers,
       ],
+      id,
       type: filterVoicesValue.STARSHIPS,
     };
 
@@ -188,6 +199,15 @@ export const mergeArrays = (
   });
 
   return mergedArray;
+};
+
+const getLastNumber = (url: string): string => {
+  const regex = /(\d+)\/?$/;
+  const match = url.match(regex);
+  if (match) {
+    return match[1].toString();
+  }
+  return '';
 };
 
 export const getFieldsForLeftHand = (
