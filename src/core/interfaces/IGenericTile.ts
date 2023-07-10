@@ -1,6 +1,5 @@
 export interface IGenericTile {
-    type: string;
-    id?: string;
-    section: string[];
+  type: string;
+  id?: string;
+  section: string[];
 }
-

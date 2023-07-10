@@ -1,5 +1,5 @@
-import { IFilm } from "./IFilm";
-import { IPeople } from "./IPeople";
+import { IFilm } from './IFilm';
+import { IPeople } from './IPeople';
 
 export interface IStarship {
   MGLT: string;

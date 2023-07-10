@@ -1,10 +1,7 @@
-import DashboardPanel from "../../components/organisms/DashboardPanel/DashboardPanel";
+import DashboardPanel from '../../components/organisms/DashboardPanel/DashboardPanel';
 
 function Dashboard() {
-
-  return <div className="dashboard">
-    <DashboardPanel/>
-  </div>;
+  return <DashboardPanel />;
 }
 
 export default Dashboard;

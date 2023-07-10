@@ -1,20 +1,21 @@
 export interface IGenericDetail {
-    type: string;
-    leftHand: LeftHand[];
-    rightHand: RightHand[];
+  type: string;
+  title: string;
+  leftHand: LeftHand[];
+  rightHand: RightHand[];
 }
 
 export interface LeftHand {
-    key: string,
-    value: string
+  key: string;
+  value: string;
 }
 
 export interface RightHand {
-    key: string,
-    values: string[] | string
+  key: string;
+  values: string[] | string;
 }
 
 export interface IGenericDetailElement {
-    type: string,
-    data: any;
+  type: string;
+  data: any;
 }

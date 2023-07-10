@@ -1,8 +1,8 @@
-import { IFilm } from "./IFilm";
-import { IPlanet } from "./IPlanet";
-import { ISpecie } from "./ISpecie";
-import { IStarship } from "./IStarship";
-import { IVehicle } from "./IVehicle";
+import { IFilm } from './IFilm';
+import { IPlanet } from './IPlanet';
+import { ISpecie } from './ISpecie';
+import { IStarship } from './IStarship';
+import { IVehicle } from './IVehicle';
 
 export interface IPeople {
   birth_year: string;

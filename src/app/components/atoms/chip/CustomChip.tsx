@@ -9,7 +9,12 @@ interface CustomChipProps {
   icon: React.ReactElement | undefined;
 }
 
-const CustomChip: React.FC<CustomChipProps> = ({ label, onClick, selected, icon }) => {
+const CustomChip: React.FC<CustomChipProps> = ({
+  label,
+  onClick,
+  selected,
+  icon,
+}) => {
   return (
     <Chip
       className={styles.customChip}

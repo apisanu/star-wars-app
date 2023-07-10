@@ -1,14 +1,20 @@
-import { useState } from "react";
-import { filterVoices, filterVoicesValue, selectIcon } from "../../../../utils/utils";
-import styles from "./FilterList.module.scss";
-import CustomChip from "../../atoms/chip/CustomChip";
+import { useState } from 'react';
+import {
+  filterVoices,
+  filterVoicesValue,
+  selectIcon,
+} from '../../../../utils/utils';
+import styles from './FilterList.module.scss';
+import CustomChip from '../../atoms/chip/CustomChip';
 
 interface FilterChipsProps {
   onChipClick: (value: string) => void;
 }
 
 const FilterChips: React.FC<FilterChipsProps> = ({ onChipClick }) => {
-  const [selectedFilters, setSelectedFilters] = useState<string>(filterVoicesValue.ALL);
+  const [selectedFilters, setSelectedFilters] = useState<string>(
+    filterVoicesValue.ALL
+  );
 
   const handleChipClick = (filter: string) => {
     setSelectedFilters(filter);

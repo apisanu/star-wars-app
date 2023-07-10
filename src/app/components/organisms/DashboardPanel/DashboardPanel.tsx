@@ -1,24 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import * as Api from "../../../../core/api/Api";
-import _ from "lodash";
-import { IFilm } from "../../../../core/interfaces/IFilm";
-import { IPeople } from "../../../../core/interfaces/IPeople";
-import { IPlanet } from "../../../../core/interfaces/IPlanet";
-import { ISpecie } from "../../../../core/interfaces/ISpecie";
-import { IStarship } from "../../../../core/interfaces/IStarship";
-import { IVehicle } from "../../../../core/interfaces/IVehicle";
-import FilterChips from "../../molecules/filterList/FilterList";
-import { Grid, Pagination } from "@mui/material";
-import Tile from "../../atoms/tile/Tile";
+import React, { useEffect, useState } from 'react';
+import * as Api from '../../../../core/api/Api';
+import _ from 'lodash';
+import { IFilm } from '../../../../core/interfaces/IFilm';
+import { IPeople } from '../../../../core/interfaces/IPeople';
+import { IPlanet } from '../../../../core/interfaces/IPlanet';
+import { ISpecie } from '../../../../core/interfaces/ISpecie';
+import { IStarship } from '../../../../core/interfaces/IStarship';
+import { IVehicle } from '../../../../core/interfaces/IVehicle';
+import FilterChips from '../../molecules/filterList/FilterList';
+import { Grid, Pagination } from '@mui/material';
+import Tile from '../../atoms/tile/Tile';
 import {
   filterVoicesValue,
   mergeArrays,
   selectIcon,
-} from "../../../../utils/utils";
-import { IGenericTile } from "../../../../core/interfaces/IGenericTile";
+} from '../../../../utils/utils';
+import { IGenericTile } from '../../../../core/interfaces/IGenericTile';
 import { useNavigate } from 'react-router-dom';
-import Search from "../../atoms/search/Search";
-
+import Search from '../../atoms/search/Search';
+import styles from './DashboardPanel.module.scss';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -30,7 +30,11 @@ const DashboardPanel: React.FC = () => {
   const [species, setSpecies] = useState<ISpecie[]>([]);
   const [starships, setStarships] = useState<IStarship[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [resetSearch, setResetSearch] = useState(0);
   const [currentFilter, setCurrentFilter] = useState<IGenericTile[]>([]);
+  const [standardCurrentFilter, setStandardCurrentFilter] = useState<
+    IGenericTile[]
+  >([]);
   const [defaultFilter, setDefaultFilter] = useState<IGenericTile[]>([]);
   const navigate = useNavigate();
 
@@ -68,16 +72,29 @@ const DashboardPanel: React.FC = () => {
         );
         setDefaultFilter(mergedData);
         setCurrentFilter(mergedData);
+        setStandardCurrentFilter(mergedData);
       }
     );
   }, []);
 
   const handleChipClick = (value: string) => {
     setCurrentPage(1);
+    setResetSearch(1);
     if (value === filterVoicesValue.ALL) {
       setCurrentFilter(defaultFilter);
+      setStandardCurrentFilter(defaultFilter);
     } else {
       setCurrentFilter(
+        mergeArrays(
+          planets,
+          species,
+          people,
+          vehicles,
+          films,
+          starships
+        ).filter((i) => i.type === value)
+      );
+      setStandardCurrentFilter(
         mergeArrays(
           planets,
           species,
@@ -108,31 +125,39 @@ const DashboardPanel: React.FC = () => {
   };
 
   const handleSearch = (result: IGenericTile[]) => {
-    setCurrentFilter(result)
+    setResetSearch(0);
+    setCurrentFilter(result);
   };
 
   return (
-    <Grid container justifyContent="center">
-      <div className="dashboard-panel">
-        <FilterChips onChipClick={handleChipClick} />
-        <Search data={defaultFilter} onSearchResult={handleSearch}/>
-        <>
-          {currentItems.map((p) => (
-            <Tile
-              key={`${p.id}_${p.type}_tile`}
-              onClick={() => handleGoToDetail(p.id, p.type)}
-              icon={selectIcon(p.type)}
-              section={p.section}
-            />
-          ))}
-          <Pagination
-            count={totalPageCount}
-            page={currentPage}
-            onChange={handlePageChange}
-            color="primary"
+    <Grid
+      container
+      justifyContent="center"
+      className={styles.dashboardContainer}
+    >
+      <FilterChips onChipClick={handleChipClick} />
+      <Search
+        data={currentFilter}
+        dataStandard={standardCurrentFilter}
+        reset={resetSearch}
+        onSearchResult={handleSearch}
+      />
+      <>
+        {currentItems.map((p) => (
+          <Tile
+            key={`${p.id}_${p.type}_tile`}
+            onClick={() => handleGoToDetail(p.id, p.type)}
+            icon={selectIcon(p.type)}
+            section={p.section}
           />
-        </>
-      </div>
+        ))}
+      </>
+      <Pagination
+        count={totalPageCount}
+        page={currentPage}
+        onChange={handlePageChange}
+        color="primary"
+      />
     </Grid>
   );
 };

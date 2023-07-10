@@ -1,6 +1,6 @@
-import React from "react";
-import { Typography, Grid } from "@mui/material";
-import styles from "./Tile.module.scss";
+import React from 'react';
+import { Typography, Grid } from '@mui/material';
+import styles from './Tile.module.scss';
 
 interface TileProps {
   icon: React.ReactNode | undefined;
@@ -13,7 +13,7 @@ const Tile: React.FC<TileProps> = ({ section, icon, onClick }) => {
     <Grid
       container
       className={styles.tile}
-      justifyContent={"space-between"}
+      justifyContent={'space-between'}
       spacing={2}
       onClick={onClick}
     >

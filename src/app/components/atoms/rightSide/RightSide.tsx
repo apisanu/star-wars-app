@@ -1,8 +1,8 @@
-import { RightHand } from "../../../../core/interfaces/IGenericDetail";
-import styles from "./RightSide.module.scss";
+import { RightHand } from '../../../../core/interfaces/IGenericDetail';
+import styles from './RightSide.module.scss';
 
 interface Props {
-    data: RightHand
+  data: RightHand;
 }
 
 const RightSide: React.FC<Props> = ({ data }) => {

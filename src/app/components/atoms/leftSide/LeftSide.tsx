@@ -1,8 +1,8 @@
-import { LeftHand } from "../../../../core/interfaces/IGenericDetail";
-import styles from "./LeftSide.module.scss";
+import { LeftHand } from '../../../../core/interfaces/IGenericDetail';
+import styles from './LeftSide.module.scss';
 
 interface Props {
-    data: LeftHand
+  data: LeftHand;
 }
 
 const LeftSide: React.FC<Props> = ({ data }) => {

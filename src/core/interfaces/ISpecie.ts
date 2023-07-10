@@ -1,6 +1,6 @@
-import { IFilm } from "./IFilm";
-import { IPeople } from "./IPeople";
-import { IPlanet } from "./IPlanet";
+import { IFilm } from './IFilm';
+import { IPeople } from './IPeople';
+import { IPlanet } from './IPlanet';
 
 export interface ISpecie {
   average_height: string;

@@ -1,8 +1,8 @@
-import { IPeople } from "./IPeople";
-import { IPlanet } from "./IPlanet";
-import { ISpecie } from "./ISpecie";
-import { IStarship } from "./IStarship";
-import { IVehicle } from "./IVehicle";
+import { IPeople } from './IPeople';
+import { IPlanet } from './IPlanet';
+import { ISpecie } from './ISpecie';
+import { IStarship } from './IStarship';
+import { IVehicle } from './IVehicle';
 
 export interface IFilm {
   characters: string[] | IPeople[];

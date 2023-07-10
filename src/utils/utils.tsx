@@ -241,6 +241,7 @@ export const mapDetail = (
     case filterVoicesValue.FILMS:
       const film: IFilm = obj.data;
       return {
+        title: film.title,
         type: obj.type,
         leftHand: getFieldsForLeftHand(film, FilmStringsLeft),
         rightHand: getFieldsForRightHand(film, FilmStringsRight),
@@ -248,6 +249,7 @@ export const mapDetail = (
     case filterVoicesValue.VEHICLES:
       const vehicle: IVehicle = obj.data;
       return {
+        title: vehicle.name,
         type: obj.type,
         leftHand: getFieldsForLeftHand(vehicle, VehicleStringsLeft),
         rightHand: getFieldsForRightHand(vehicle, VehicleStringsRight),
@@ -255,6 +257,7 @@ export const mapDetail = (
     case filterVoicesValue.PLANETS:
       const planet: IPlanet = obj.data;
       return {
+        title: planet.name,
         type: obj.type,
         leftHand: getFieldsForLeftHand(planet, PlanetsStringsLeft),
         rightHand: getFieldsForRightHand(planet, PlanetsStringsRight),
@@ -262,6 +265,7 @@ export const mapDetail = (
     case filterVoicesValue.PEOPLE:
       const people: IPeople = obj.data;
       return {
+        title: people.name,
         type: obj.type,
         leftHand: getFieldsForLeftHand(people, PeopleStringsLeft),
         rightHand: getFieldsForRightHand(people, PeopleStringsRight),
@@ -269,6 +273,7 @@ export const mapDetail = (
     case filterVoicesValue.SPECIES:
       const specie: ISpecie = obj.data;
       return {
+        title: specie.name,
         type: obj.type,
         leftHand: getFieldsForLeftHand(specie, SpeciesStringsLeft),
         rightHand: getFieldsForRightHand(specie, SpeciesStringsRight),
@@ -276,6 +281,7 @@ export const mapDetail = (
     case filterVoicesValue.STARSHIPS:
       const starship: IStarship = obj.data;
       return {
+        title: starship.name,
         type: obj.type,
         leftHand: getFieldsForLeftHand(starship, StarshipStringsLeft),
         rightHand: getFieldsForRightHand(starship, StarshipStringsRight),
