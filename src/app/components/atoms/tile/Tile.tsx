@@ -24,7 +24,7 @@ const Tile: React.FC<TileProps> = ({ section, icon, onClick }) => {
       </Grid>
       {section.map((item, i) => (
         <Grid item key={`${item}_${i}`} className={styles.cell}>
-          <Typography variant="body1">{item}</Typography>
+          <Typography variant="body1" className={styles.cellTypo}>{item}</Typography>
         </Grid>
       ))}
     </Grid>

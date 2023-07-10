@@ -33,7 +33,9 @@ const Search: React.FC<Props> = ({
         const sectionValues = item.section.map((value) =>
           value.toString().toLowerCase()
         );
-        return sectionValues.includes(value.toLowerCase());
+        return sectionValues.some((sectionValue) =>
+          sectionValue.includes(value.toLowerCase())
+        );
       });
       onSearchResult(results);
     }

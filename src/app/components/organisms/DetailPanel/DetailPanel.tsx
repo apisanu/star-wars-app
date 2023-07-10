@@ -1,4 +1,4 @@
-import { Grid, Paper, Skeleton, Typography } from '@mui/material';
+import { Box, Grid, Paper, Skeleton, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Api from '../../../../core/api/Api';
@@ -44,12 +44,14 @@ const DetailPanel: React.FC<Props> = ({ id }) => {
       </Grid>
 
       {isLoading ? (
-        <Skeleton
-          variant="rectangular"
-          animation="wave"
-          width={100}
-          height={20}
-        />
+        <Box padding={2}>
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            width={100}
+            height={20}
+          />
+        </Box>
       ) : (
         <Typography variant="h5" gutterBottom>
           {value?.type === filterVoicesValue.PEOPLE
@@ -63,21 +65,24 @@ const DetailPanel: React.FC<Props> = ({ id }) => {
           <Grid
             item
             xs={12}
-            spacing={2}
             sx={{ display: 'flex', justifyContent: 'center' }}
           >
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              width={568}
-              height={263}
-            />
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              width={568}
-              height={263}
-            />
+            <Box padding={2}>
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                width={568}
+                height={263}
+              />
+            </Box>
+            <Box padding={2}>
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                width={568}
+                height={263}
+              />
+            </Box>
           </Grid>
         ) : (
           <>
