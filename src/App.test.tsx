@@ -4,7 +4,7 @@ import Dashboard from './app/pages/Dashboard/Dashboard';
 import Detail from './app/pages/Detail/Detail';
 import NotFound from './app/pages/NotFound/NotFound';
 
-describe('DashboardPanel', () => {
+describe('Pages', () => {
   test('renders the Dashboard page', () => {
     render(
       <Router>
