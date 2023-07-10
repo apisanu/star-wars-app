@@ -4,5 +4,9 @@
 
     &Cell {
         padding: 10px;
+
+        &Array {
+            font-size: .8rem!important;
+        }
     }
 }

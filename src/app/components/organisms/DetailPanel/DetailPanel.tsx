@@ -1,13 +1,14 @@
-import { Grid, Skeleton } from '@mui/material';
+import { Grid, Paper, Skeleton, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Api from '../../../../core/api/Api';
 import { IGenericDetail } from '../../../../core/interfaces/IGenericDetail';
-import { mapDetail } from '../../../../utils/utils';
+import { filterVoicesValue, mapDetail } from '../../../../utils/utils';
 import CustomButton from '../../atoms/button/CustomButton';
 import LeftSide from '../../atoms/leftSide/LeftSide';
 import RightSide from '../../atoms/rightSide/RightSide';
 import styles from './DetailPanel.module.scss';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface Props {
   id: string | undefined;
@@ -15,14 +16,19 @@ interface Props {
 
 const DetailPanel: React.FC<Props> = ({ id }) => {
   const [value, setValue] = useState<IGenericDetail | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   let params = new URLSearchParams(window.location.search);
   const type = params.get('type');
   const navigate = useNavigate();
 
   useEffect(() => {
-    Api.getOne(type, id).then((res) => {
-      setValue(mapDetail(res));
-    });
+    const retrieveData = async () => {
+      const response = await Api.getOne(type, id);
+      setValue(mapDetail(response));
+      setIsLoading(false);
+    };
+
+    retrieveData();
   }, [id, type]);
 
   const handleBack = () => {
@@ -30,31 +36,76 @@ const DetailPanel: React.FC<Props> = ({ id }) => {
   };
 
   return (
-    <Grid justifyContent="center">
-      <Grid spacing={4}>
-        <CustomButton text="Back" onPress={handleBack} />
+    <Grid container justifyContent="center">
+      <Grid item xs={12} sx={{ marginBottom: '1rem' }}>
+        <CustomButton text="Back" onPress={handleBack}>
+          <ArrowBackIcon />
+        </CustomButton>
       </Grid>
+
+      {isLoading ? (
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          width={100}
+          height={20}
+        />
+      ) : (
+        <Typography variant="h5" gutterBottom>
+          {value?.type === filterVoicesValue.PEOPLE
+            ? `${value?.title} bio`
+            : `${value?.title} details`}
+        </Typography>
+      )}
+
       <Grid container spacing={2}>
-        {value ? (
+        {isLoading ? (
+          <Grid
+            item
+            xs={12}
+            spacing={2}
+            sx={{ display: 'flex', justifyContent: 'center' }}
+          >
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              width={568}
+              height={263}
+            />
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              width={568}
+              height={263}
+            />
+          </Grid>
+        ) : (
           <>
-            <Grid item xs={6} className={styles.leftSideContainer}>
-              {value?.leftHand.map((left, index) => (
-                <LeftSide data={left} key={`${left.key}_${index}`} />
-              ))}
+            <Grid item xs={6}>
+              <Paper elevation={3} className={styles.leftSideContainer}>
+                {value?.leftHand.map((left, index) => (
+                  <LeftSide data={left} key={`${left.key}_${index}`} />
+                ))}
+              </Paper>
             </Grid>
-            <Grid item xs={6} className={styles.rightSideContainer}>
-              {value?.rightHand.map((right, index) => (
-                <RightSide data={right} key={`${right.key}_${index}`} />
-              ))}
+            <Grid item xs={6}>
+              <Paper elevation={3} className={styles.rightSideContainer}>
+                <Grid container spacing={1}>
+                  {value?.rightHand.map((right, index) => (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      key={`${right.key}_${index}`}
+                    >
+                      <RightSide data={right} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Paper>
             </Grid>
           </>
-        ) : (
-          <Skeleton
-            variant="rectangular"
-            animation="wave"
-            width={500}
-            height={500}
-          />
         )}
       </Grid>
     </Grid>

@@ -234,8 +234,8 @@ export const StarshipStringsRight = [
       description: "Eye color",
     },
     {
-      value: "mass",
-      description: "Mass",
+      value: "films",
+      description: "Films",
     },
     {
       value: "height",

@@ -1,3 +1,4 @@
+import { Box, Typography } from '@mui/material';
 import { LeftHand } from '../../../../core/interfaces/IGenericDetail';
 import styles from './LeftSide.module.scss';
 
@@ -7,10 +8,18 @@ interface Props {
 
 const LeftSide: React.FC<Props> = ({ data }) => {
   return (
-    <div className={styles.leftHand}>
-      <div className={styles.leftHandCell}>{data.key}</div>
-      <div className={styles.leftHandCell}>{data.value}</div>
-    </div>
+    <Box display="flex" justifyContent="space-between">
+      <Typography
+        variant="body1"
+        sx={{ fontWeight: 'bold' }}
+        className={styles.leftHandCell}
+      >
+        {data.key}
+      </Typography>
+      <Typography variant="body1" className={styles.leftHandCell}>
+        {data.value}
+      </Typography>
+    </Box>
   );
 };
 

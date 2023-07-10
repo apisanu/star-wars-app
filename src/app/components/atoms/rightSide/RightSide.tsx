@@ -1,3 +1,4 @@
+import { Box, Typography } from '@mui/material';
 import { RightHand } from '../../../../core/interfaces/IGenericDetail';
 import styles from './RightSide.module.scss';
 
@@ -7,10 +8,26 @@ interface Props {
 
 const RightSide: React.FC<Props> = ({ data }) => {
   return (
-    <div className={styles.rightHand}>
-      <div className={styles.rightHandCell}>{data.key}</div>
-      <div className={styles.rightHandCell}>{data.values}</div>
-    </div>
+    <Box width={4}>
+      <Typography
+        variant="body1"
+        sx={{ fontWeight: 'bold' }}
+        className={styles.rightHandCell}
+      >
+        {data.key}
+      </Typography>
+      {Array.isArray(data.values) ? (
+        data.values.map((el) => (
+          <Typography variant="subtitle1" className={(styles.rightHandCell, styles.rightHandCellArray)}>
+            {el}
+          </Typography>
+        ))
+      ) : (
+        <Typography variant="body1" className={styles.rightHandCell}>
+          {data.values}
+        </Typography>
+      )}
+    </Box>
   );
 };
 

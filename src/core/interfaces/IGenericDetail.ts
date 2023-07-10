@@ -12,7 +12,7 @@ export interface LeftHand {
 
 export interface RightHand {
   key: string;
-  values: string[] | string;
+  values: string[];
 }
 
 export interface IGenericDetailElement {

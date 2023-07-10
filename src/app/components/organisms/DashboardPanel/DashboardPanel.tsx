@@ -142,16 +142,14 @@ const DashboardPanel: React.FC = () => {
         reset={resetSearch}
         onSearchResult={handleSearch}
       />
-      <>
-        {currentItems.map((p) => (
-          <Tile
-            key={`${p.id}_${p.type}_tile`}
-            onClick={() => handleGoToDetail(p.id, p.type)}
-            icon={selectIcon(p.type)}
-            section={p.section}
-          />
-        ))}
-      </>
+      {currentItems.map((p) => (
+        <Tile
+          key={`${p.id}_${p.type}_tile`}
+          onClick={() => handleGoToDetail(p.id, p.type)}
+          icon={selectIcon(p.type)}
+          section={p.section}
+        />
+      ))}
       <Pagination
         count={totalPageCount}
         page={currentPage}
