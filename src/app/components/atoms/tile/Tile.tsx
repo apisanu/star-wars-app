@@ -8,27 +8,26 @@ interface TileProps {
   onClick: () => void;
 }
 
-const Tile: React.FC<TileProps> = ({
-  section,
-  icon,
-  onClick
-}) => {
+const Tile: React.FC<TileProps> = ({ section, icon, onClick }) => {
   return (
-    <div className={styles.tile} onClick={onClick}>
-      <div className={styles.icon}>{icon}</div>
-      <Grid
-        container
-        className={styles.container}
-        justifyContent={"space-between"}
-        spacing={2}
-      >
-        {section.map((item, i) => (
-          <Grid item key={`${item}_${i}`} className={styles.cell}>
-            <Typography variant="body1">{item}</Typography>
-          </Grid>
-        ))}
+    <Grid
+      container
+      className={styles.tile}
+      justifyContent={"space-between"}
+      spacing={2}
+      onClick={onClick}
+    >
+      <Grid item className={styles.cell}>
+        <Typography variant="body1" className={styles.icon}>
+          {icon}
+        </Typography>
       </Grid>
-    </div>
+      {section.map((item, i) => (
+        <Grid item key={`${item}_${i}`} className={styles.cell}>
+          <Typography variant="body1">{item}</Typography>
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

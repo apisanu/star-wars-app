@@ -3,3 +3,4 @@ export interface IGenericTile {
     id?: string;
     section: string[];
 }
+

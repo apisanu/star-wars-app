@@ -1,0 +1,8 @@
+.rightHand {
+    display: flex;
+    justify-content: space-between;
+
+    &Cell {
+        padding: 10px;
+    }
+}

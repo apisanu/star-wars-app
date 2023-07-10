@@ -17,6 +17,7 @@ import {
 } from "../../../../utils/utils";
 import { IGenericTile } from "../../../../core/interfaces/IGenericTile";
 import { useNavigate } from 'react-router-dom';
+import Search from "../../atoms/search/Search";
 
 
 const ITEMS_PER_PAGE = 10;
@@ -101,16 +102,20 @@ const DashboardPanel: React.FC = () => {
   };
 
   const handleGoToDetail = (id: string | undefined, type: string) => {
-    console.log(currentItems)
     if (id?.toString()) {
       navigate(`/detail/${id}?type=${type}`);
     }
+  };
+
+  const handleSearch = (result: IGenericTile[]) => {
+    setCurrentFilter(result)
   };
 
   return (
     <Grid container justifyContent="center">
       <div className="dashboard-panel">
         <FilterChips onChipClick={handleChipClick} />
+        <Search data={defaultFilter} onSearchResult={handleSearch}/>
         <>
           {currentItems.map((p) => (
             <Tile

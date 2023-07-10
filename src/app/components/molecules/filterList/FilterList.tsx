@@ -1,7 +1,6 @@
-import { Chip, Grid } from "@mui/material";
 import { useState } from "react";
 import { filterVoices, filterVoicesValue, selectIcon } from "../../../../utils/utils";
-import styles from "./HorizontalTile.module.scss";
+import styles from "./FilterList.module.scss";
 import CustomChip from "../../atoms/chip/CustomChip";
 
 interface FilterChipsProps {
@@ -17,7 +16,7 @@ const FilterChips: React.FC<FilterChipsProps> = ({ onChipClick }) => {
   };
 
   return (
-    <div className="filter-list">
+    <div className={styles.filterList}>
       {filterVoices.map(({ text, value }) => (
         <CustomChip
           key={text}
