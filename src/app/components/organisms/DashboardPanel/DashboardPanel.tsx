@@ -100,10 +100,10 @@ const DashboardPanel: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const handleGoToDetail = (id: string | undefined) => {
+  const handleGoToDetail = (id: string | undefined, type: string) => {
     console.log(currentItems)
     if (id?.toString()) {
-      navigate(`/detail/${id}`);
+      navigate(`/detail/${id}?type=${type}`);
     }
   };
 
@@ -114,14 +114,9 @@ const DashboardPanel: React.FC = () => {
         <>
           {currentItems.map((p) => (
             <Tile
-              onClick={() => handleGoToDetail(p.id)}
+              onClick={() => handleGoToDetail(p.id, p.type)}
               icon={selectIcon(p.type)}
-              info1={p.info1}
-              info2={p.info2}
-              info3={p.info3}
-              info4={p.info4}
-              info5={p.info5}
-              info6={p.info6}
+              section={p.section}
             />
           ))}
           <Pagination

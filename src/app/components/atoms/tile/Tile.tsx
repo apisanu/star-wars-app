@@ -4,22 +4,12 @@ import styles from "./Tile.module.scss";
 
 interface TileProps {
   icon: React.ReactNode | undefined;
-  info1: string;
-  info2: string;
-  info3: string;
-  info4: string;
-  info5: string;
-  info6: string;
+  section: string[];
   onClick: () => void;
 }
 
 const Tile: React.FC<TileProps> = ({
-  info1,
-  info2,
-  info3,
-  info4,
-  info5,
-  info6,
+  section,
   icon,
   onClick
 }) => {
@@ -32,24 +22,11 @@ const Tile: React.FC<TileProps> = ({
         justifyContent={"space-between"}
         spacing={2}
       >
-        <Grid item className={styles.cell}>
-          <Typography variant="body1">{info1}</Typography>
-        </Grid>
-        <Grid item className={styles.cell}>
-          <Typography variant="body1">{info2}</Typography>
-        </Grid>
-        <Grid item className={styles.cell}>
-          <Typography variant="body1">{info3}</Typography>
-        </Grid>
-        <Grid item className={styles.cell}>
-          <Typography variant="body1">{info4}</Typography>
-        </Grid>
-        <Grid item className={styles.cell}>
-          <Typography variant="body1">{info5}</Typography>
-        </Grid>
-        <Grid item className={styles.cell}>
-          <Typography variant="body1">{info6}</Typography>
-        </Grid>
+        {section.map((item, i) => (
+          <Grid item key={`${item}_${i}`} className={styles.cell}>
+            <Typography variant="body1">{item}</Typography>
+          </Grid>
+        ))}
       </Grid>
     </div>
   );

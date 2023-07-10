@@ -12,6 +12,27 @@ import DirectionsCarFilledTwoToneIcon from "@mui/icons-material/DirectionsCarFil
 import CircleTwoToneIcon from "@mui/icons-material/CircleTwoTone";
 import PetsTwoToneIcon from "@mui/icons-material/PetsTwoTone";
 import AllInclusiveTwoToneIcon from "@mui/icons-material/AllInclusiveTwoTone";
+import {
+  IGenericDetail,
+  IGenericDetailElement,
+  LeftHand,
+  RightHand,
+} from "../core/interfaces/IGenericDetail";
+import {
+  FilmStringsLeft,
+  FilmStringsRight,
+  PeopleStringsLeft,
+  PeopleStringsRight,
+  PlanetsStringsLeft,
+  PlanetsStringsRight,
+  SpeciesStringsLeft,
+  SpeciesStringsRight,
+  StarshipStringsLeft,
+  StarshipStringsRight,
+  ValueDesc,
+  VehicleStringsLeft,
+  VehicleStringsRight,
+} from "./mappers";
 
 export enum filterVoicesValue {
   ALL = "all",
@@ -69,14 +90,17 @@ export const mergeArrays = (
 ): IGenericTile[] => {
   let mergedArray: IGenericTile[] = [];
 
-  planets.forEach((item) => {
+  planets.forEach((item, i) => {
     const mergedItem: IGenericTile = {
-      info1: item.name,
-      info2: item.diameter,
-      info3: item.gravity,
-      info4: item.orbital_period,
-      info5: item.population,
-      info6: item.surface_water,
+      section: [
+        item.name,
+        item.diameter,
+        item.gravity,
+        item.orbital_period,
+        item.population,
+        item.surface_water,
+      ],
+      id: i.toString(),
       type: filterVoicesValue.PLANETS,
     };
 
@@ -85,12 +109,14 @@ export const mergeArrays = (
 
   species.forEach((item) => {
     const mergedItem: IGenericTile = {
-      info1: item.name,
-      info2: item.hair_colors,
-      info3: item.designation,
-      info4: item.language,
-      info5: item.classification,
-      info6: item.average_height,
+      section: [
+        item.name,
+        item.hair_colors,
+        item.designation,
+        item.language,
+        item.classification,
+        item.average_height,
+      ],
       type: filterVoicesValue.SPECIES,
     };
 
@@ -99,12 +125,14 @@ export const mergeArrays = (
 
   vehicle.forEach((item) => {
     const mergedItem: IGenericTile = {
-      info1: item.name,
-      info2: item.cargo_capacity,
-      info3: item.crew,
-      info4: item.manufacturer,
-      info5: item.cost_in_credits,
-      info6: item.consumables,
+      section: [
+        item.name,
+        item.cargo_capacity,
+        item.crew,
+        item.manufacturer,
+        item.cost_in_credits,
+        item.consumables,
+      ],
       type: filterVoicesValue.VEHICLES,
     };
 
@@ -113,12 +141,14 @@ export const mergeArrays = (
 
   people.forEach((item) => {
     const mergedItem: IGenericTile = {
-      info1: item.name,
-      info2: item.birth_year,
-      info3: item.eye_color,
-      info4: item.mass,
-      info5: item.height,
-      info6: item.gender,
+      section: [
+        item.name,
+        item.birth_year,
+        item.eye_color,
+        item.mass,
+        item.height,
+        item.gender,
+      ],
       type: filterVoicesValue.PEOPLE,
     };
 
@@ -127,12 +157,14 @@ export const mergeArrays = (
 
   film.forEach((item) => {
     const mergedItem: IGenericTile = {
-      info1: item.director,
-      info2: item.producer,
-      info3: item.episode_id,
-      info4: item.opening_crawl,
-      info5: item.title,
-      info6: item.url,
+      section: [
+        item.director,
+        item.producer,
+        item.episode_id,
+        item.opening_crawl,
+        item.title,
+        item.url,
+      ],
       type: filterVoicesValue.FILMS,
     };
 
@@ -141,21 +173,96 @@ export const mergeArrays = (
 
   starship.forEach((item) => {
     const mergedItem: IGenericTile = {
-      info1: item.cargo_capacity,
-      info2: item.name,
-      info3: item.cost_in_credits,
-      info4: item.crew,
-      info5: item.model,
-      info6: item.passengers,
+      section: [
+        item.cargo_capacity,
+        item.name,
+        item.cost_in_credits,
+        item.crew,
+        item.model,
+        item.passengers,
+      ],
       type: filterVoicesValue.STARSHIPS,
     };
 
     mergedArray.push(mergedItem);
   });
 
-  mergedArray = mergedArray.map((m, index) => {return {...m, id: index.toString()}});
-
   return mergedArray;
+};
+
+export const getFieldsForLeftHand = (
+  obj: object,
+  fields: ValueDesc[]
+): LeftHand[] => {
+  const newArray: LeftHand[] = fields.map((field) => ({
+    value: obj[field.value as keyof typeof obj],
+    key: field.description,
+  }));
+
+  return newArray;
+};
+
+export const getFieldsForRightHand = (
+  obj: any,
+  fields: ValueDesc[]
+): RightHand[] => {
+  const newArray: RightHand[] = fields.map((field) => ({
+    values: obj[field.value as keyof typeof obj],
+    key: field.description,
+  }));
+
+  return newArray;
+};
+
+export const mapDetail = (
+  obj: IGenericDetailElement
+): IGenericDetail | undefined => {
+  switch (obj.type) {
+    case filterVoicesValue.FILMS:
+      const film: IFilm = obj.data;
+      return {
+        type: obj.type,
+        leftHand: getFieldsForLeftHand(film, FilmStringsLeft),
+        rightHand: getFieldsForRightHand(film, FilmStringsRight),
+      };
+    case filterVoicesValue.VEHICLES:
+      const vehicle: IVehicle = obj.data;
+      return {
+        type: obj.type,
+        leftHand: getFieldsForLeftHand(vehicle, VehicleStringsLeft),
+        rightHand: getFieldsForRightHand(vehicle, VehicleStringsRight),
+      };
+    case filterVoicesValue.PLANETS:
+      const planet: IPlanet = obj.data;
+      return {
+        type: obj.type,
+        leftHand: getFieldsForLeftHand(planet, PlanetsStringsLeft),
+        rightHand: getFieldsForRightHand(planet, PlanetsStringsRight),
+      };
+    case filterVoicesValue.PEOPLE:
+      const people: IPeople = obj.data;
+      return {
+        type: obj.type,
+        leftHand: getFieldsForLeftHand(people, PeopleStringsLeft),
+        rightHand: getFieldsForRightHand(people, PeopleStringsRight),
+      };
+    case filterVoicesValue.SPECIES:
+      const specie: ISpecie = obj.data;
+      return {
+        type: obj.type,
+        leftHand: getFieldsForLeftHand(specie, SpeciesStringsLeft),
+        rightHand: getFieldsForRightHand(specie, SpeciesStringsRight),
+      };
+    case filterVoicesValue.STARSHIPS:
+      const starship: IStarship = obj.data;
+      return {
+        type: obj.type,
+        leftHand: getFieldsForLeftHand(starship, StarshipStringsLeft),
+        rightHand: getFieldsForRightHand(starship, StarshipStringsRight),
+      };
+    default:
+      return undefined;
+  }
 };
 
 export const selectIcon = (value: string): React.ReactElement | undefined => {

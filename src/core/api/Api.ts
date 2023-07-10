@@ -131,6 +131,21 @@ function collectionBuilder < T > (resource: ResourcesType) {
   }
 }
 
+export const getOne = async (type: string | null, id: string | undefined) => {
+  const headers = {
+    accept: "application/json"
+  };
+  
+  const config = {
+    headers: headers
+  };
+
+  const url = `https://swapi.dev/api/${type}/${id}`
+
+  const response = await axios.get(url, config);
+  const result = response.data;
+}
+
 
 export const Films = collectionBuilder < IFilm > (ResourcesType.Films);
 export const People = collectionBuilder < IPeople > (ResourcesType.People);
