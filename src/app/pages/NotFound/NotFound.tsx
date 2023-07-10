@@ -13,7 +13,7 @@ const NotFound: React.FC<Props> = ({ text }) => {
     navigate('/');
   };
   return (
-    <>
+    <Grid data-testid="not-found-page">
       <Grid container justifyContent="center">
         <ReportIcon color="error" />
         <Typography>{text}</Typography>
@@ -21,7 +21,7 @@ const NotFound: React.FC<Props> = ({ text }) => {
       <Grid container justifyContent="center">
         <CustomButton text='Go to dashboard' onPress={handleGoToDashboard}/>
       </Grid>
-    </>
+    </Grid>
   );
 };
 

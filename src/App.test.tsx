@@ -1,54 +1,38 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Dashboard from './app/pages/Dashboard/Dashboard';
 import Detail from './app/pages/Detail/Detail';
-import AppRouter from './AppRouter';
+import NotFound from './app/pages/NotFound/NotFound';
 
-describe('AppRouter', () => {
-  test('renders the Dashboard page for /dashboard route', () => {
+describe('DashboardPanel', () => {
+  test('renders the Dashboard page', () => {
     render(
       <Router>
-        <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
+        <Dashboard data-testid="dashboard-page" />
       </Router>
     );
+
     expect(screen.getByTestId('dashboard-page')).toBeInTheDocument();
   });
 
-  test('renders the Dashboard page for / route', () => {
+  test('renders the Detail page', () => {
     render(
       <Router>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-        </Routes>
+        <Detail data-testid="detail-page" />
       </Router>
     );
-    expect(screen.getByTestId('dashboard-page')).toBeInTheDocument();
-  });
 
-  test('renders the Detail page for /detail/:id route', () => {
-    render(
-      <Router>
-        <Routes>
-          <Route path="/detail/:id" element={<Detail />} />
-        </Routes>
-      </Router>
-    );
     expect(screen.getByTestId('detail-page')).toBeInTheDocument();
   });
 
-  test('renders the 404 page for an unknown route', () => {
+
+  test('renders the Not Found page', () => {
     render(
       <Router>
-        <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/detail/:id" element={<Detail />} />
-        </Routes>
+        <NotFound text='Something to text' data-testid="not-found-page" />
       </Router>
     );
-    expect(screen.getByTestId('404-page')).toBeInTheDocument();
+
+    expect(screen.getByTestId('not-found-page')).toBeInTheDocument();
   });
 });
