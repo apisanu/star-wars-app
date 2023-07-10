@@ -50,6 +50,7 @@ const DetailPanel: React.FC<Props> = ({ id }) => {
             animation="wave"
             width={100}
             height={20}
+            sx={{ borderRadius: '5px' }}
           />
         </Box>
       ) : (
@@ -62,17 +63,14 @@ const DetailPanel: React.FC<Props> = ({ id }) => {
 
       <Grid container spacing={2}>
         {isLoading ? (
-          <Grid
-            item
-            xs={12}
-            sx={{ display: 'flex', justifyContent: 'center' }}
-          >
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box padding={2}>
               <Skeleton
                 variant="rectangular"
                 animation="wave"
                 width={568}
                 height={263}
+                sx={{ borderRadius: '5px' }}
               />
             </Box>
             <Box padding={2}>
@@ -81,6 +79,7 @@ const DetailPanel: React.FC<Props> = ({ id }) => {
                 animation="wave"
                 width={568}
                 height={263}
+                sx={{ borderRadius: '5px' }}
               />
             </Box>
           </Grid>
@@ -89,7 +88,11 @@ const DetailPanel: React.FC<Props> = ({ id }) => {
             <Grid item xs={6}>
               <Paper elevation={3} className={styles.leftSideContainer}>
                 {value?.leftHand.map((left, index) => (
-                  <LeftSide data={left} key={`${left.key}_${index}`} />
+                  <LeftSide
+                    data={left}
+                    key={`${left.key}_${index}`}
+                    borderTop={index !== 0}
+                  />
                 ))}
               </Paper>
             </Grid>

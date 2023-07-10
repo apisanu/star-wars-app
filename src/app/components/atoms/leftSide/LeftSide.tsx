@@ -4,11 +4,12 @@ import styles from './LeftSide.module.scss';
 
 interface Props {
   data: LeftHand;
+  borderTop: boolean
 }
 
-const LeftSide: React.FC<Props> = ({ data }) => {
+const LeftSide: React.FC<Props> = ({ data, borderTop }) => {
   return (
-    <Box display="flex" justifyContent="space-between">
+    <Box display="flex" justifyContent="space-between" className={borderTop ? styles.borderTop : ''}>
       <Typography
         variant="body1"
         sx={{ fontWeight: 'bold' }}

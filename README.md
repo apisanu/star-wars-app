@@ -1,7 +1,3 @@
-## Available Scripts
-
-In the project directory, you can run:
-
 ## Description
 This application allow you to explore and discover information about the Star Wars universe.
 
@@ -48,6 +44,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 - Axios (for API requests)
 - SWAPI TS (for general API requests)
 - React Router (for routing)
+- Jest as testing suite
 
 ## Features
 
