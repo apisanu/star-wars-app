@@ -1,4 +1,11 @@
-import { Box, Grid, Paper, Skeleton, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Paper,
+  Skeleton,
+  Snackbar,
+  Typography,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Api from '../../../../core/api/Api';
@@ -17,19 +24,29 @@ interface Props {
 const DetailPanel: React.FC<Props> = ({ id }) => {
   const [value, setValue] = useState<IGenericDetail | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
   let params = new URLSearchParams(window.location.search);
   const type = params.get('type');
   const navigate = useNavigate();
 
   useEffect(() => {
     const retrieveData = async () => {
-      const response = await Api.getOne(type, id);
-      setValue(mapDetail(response));
-      setIsLoading(false);
+      try {
+        const response = await Api.getOne(type, id);
+        setValue(mapDetail(response));
+        setIsLoading(false);
+      } catch (error) {
+        setError(true);
+        setIsLoading(true);
+      }
     };
 
     retrieveData();
   }, [id, type]);
+
+  const handleSnackbarClose = () => {
+    setError(false);
+  };
 
   const handleBack = () => {
     navigate(-1);
@@ -116,6 +133,17 @@ const DetailPanel: React.FC<Props> = ({ id }) => {
           </>
         )}
       </Grid>
+      <Snackbar
+        open={error}
+        autoHideDuration={null}
+        onClose={handleSnackbarClose}
+        message='Error retrieving data.'
+        action={
+          <CustomButton variant='contained' color='error' text="Back" onPress={handleBack}>
+            <ArrowBackIcon />
+          </CustomButton>
+        }
+      />
     </Grid>
   );
 };
