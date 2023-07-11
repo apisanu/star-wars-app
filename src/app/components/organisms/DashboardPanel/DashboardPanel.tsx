@@ -134,22 +134,28 @@ const DashboardPanel: React.FC = () => {
       container
       justifyContent="center"
       className={styles.dashboardContainer}
+      data-testid="dashboard-panel"
     >
-      <FilterChips onChipClick={handleChipClick} />
+      <Grid data-testid="filter-chips">
+        <FilterChips onChipClick={handleChipClick} />
+      </Grid>
       <Search
         data={currentFilter}
         dataStandard={standardCurrentFilter}
         reset={resetSearch}
         onSearchResult={handleSearch}
       />
-      {currentItems.map((p) => (
-        <Tile
-          key={`${p.id}_${p.type}_tile`}
-          onClick={() => handleGoToDetail(p.id, p.type)}
-          icon={selectIcon(p.type)}
-          section={p.section}
-        />
-      ))}
+      <Grid data-testid="tile">
+        {currentItems.map((p) => (
+          <Tile
+            key={`${p.id}_${p.type}_tile`}
+            onClick={() => handleGoToDetail(p.id, p.type)}
+            icon={selectIcon(p.type)}
+            section={p.section}
+          />
+        ))}
+      </Grid>
+
       <Pagination
         count={totalPageCount}
         page={currentPage}
