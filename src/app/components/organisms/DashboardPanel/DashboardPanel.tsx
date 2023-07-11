@@ -35,7 +35,9 @@ const DashboardPanel: React.FC = () => {
   const [standardCurrentFilter, setStandardCurrentFilter] = useState<
     IGenericTile[]
   >([]);
-  const [defaultFilter, setDefaultFilter] = useState<IGenericTile[] | null>(null);
+  const [defaultFilter, setDefaultFilter] = useState<IGenericTile[] | null>(
+    null
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,31 +81,23 @@ const DashboardPanel: React.FC = () => {
 
   const handleChipClick = (value: string) => {
     setCurrentPage(1);
+
     setResetSearch(1);
+
     if (value === filterVoicesValue.ALL) {
       setCurrentFilter(defaultFilter as IGenericTile[]);
       setStandardCurrentFilter(defaultFilter as IGenericTile[]);
     } else {
-      setCurrentFilter(
-        mergeArrays(
-          planets,
-          species,
-          people,
-          vehicles,
-          films,
-          starships
-        ).filter((i) => i.type === value)
-      );
-      setStandardCurrentFilter(
-        mergeArrays(
-          planets,
-          species,
-          people,
-          vehicles,
-          films,
-          starships
-        ).filter((i) => i.type === value)
-      );
+      const filtered = mergeArrays(
+        planets,
+        species,
+        people,
+        vehicles,
+        films,
+        starships
+      ).filter((i) => i.type === value);
+      setCurrentFilter(filtered);
+      setStandardCurrentFilter(filtered);
     }
   };
 
@@ -129,17 +123,19 @@ const DashboardPanel: React.FC = () => {
     setCurrentFilter(result);
   };
 
-  const skeletons: JSX.Element[] = Array.from({ length: 10 }).map((val, index) => (
-    <Box key={index} padding={2}>
-      <Skeleton
-        variant="rectangular"
-        animation="wave"
-        width={1160}
-        height={49}
-        sx={{ borderRadius: '5px' }}
-      />
-    </Box>
-  ));
+  const skeletons: JSX.Element[] = Array.from({ length: 10 }).map(
+    (val, index) => (
+      <Box key={index} padding={2}>
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          width={1160}
+          height={49}
+          sx={{ borderRadius: '5px' }}
+        />
+      </Box>
+    )
+  );
 
   return (
     <Grid

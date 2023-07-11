@@ -17,8 +17,8 @@ const RightSide: React.FC<Props> = ({ data }) => {
         {data.key}
       </Typography>
       {Array.isArray(data.values) ? (
-        data.values.map((el) => (
-          <Typography variant="subtitle1" className={(styles.rightHandCell, styles.rightHandCellArray)}>
+        data.values.map((el, index) => (
+          <Typography variant="subtitle1" key={`${el[1]}_${index}}`} className={(styles.rightHandCell, styles.rightHandCellArray)}>
             {el}
           </Typography>
         ))
