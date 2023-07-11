@@ -29,7 +29,6 @@ const DashboardPanel: React.FC = () => {
   const [films, setFilms] = useState<IFilm[]>([]);
   const [species, setSpecies] = useState<ISpecie[]>([]);
   const [starships, setStarships] = useState<IStarship[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [resetSearch, setResetSearch] = useState(0);
   const [currentFilter, setCurrentFilter] = useState<IGenericTile[]>([]);
   const [standardCurrentFilter, setStandardCurrentFilter] = useState<
@@ -38,6 +37,8 @@ const DashboardPanel: React.FC = () => {
   const [defaultFilter, setDefaultFilter] = useState<IGenericTile[] | null>(
     null
   );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,14 +76,15 @@ const DashboardPanel: React.FC = () => {
         setDefaultFilter(mergedData);
         setCurrentFilter(mergedData);
         setStandardCurrentFilter(mergedData);
+        const totalPages = Math.ceil(mergedData.length / ITEMS_PER_PAGE);
+        setTotalPages(totalPages);
       }
     );
   }, []);
 
   const handleChipClick = (value: string) => {
-    setCurrentPage(1);
-
     setResetSearch(1);
+    setCurrentPage(1);
 
     if (value === filterVoicesValue.ALL) {
       setCurrentFilter(defaultFilter as IGenericTile[]);
@@ -98,18 +100,9 @@ const DashboardPanel: React.FC = () => {
       ).filter((i) => i.type === value);
       setCurrentFilter(filtered);
       setStandardCurrentFilter(filtered);
+      const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+      setTotalPages(totalPages);
     }
-  };
-
-  const totalPageCount = Math.ceil(currentFilter.length / ITEMS_PER_PAGE);
-
-  const currentItems = currentFilter.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-
-  const handlePageChange = (event: any, page: number) => {
-    setCurrentPage(page);
   };
 
   const handleGoToDetail = (id: string | undefined, type: string) => {
@@ -121,6 +114,18 @@ const DashboardPanel: React.FC = () => {
   const handleSearch = (result: IGenericTile[]) => {
     setResetSearch(0);
     setCurrentFilter(result);
+  };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrentPage(page);
+  };
+
+  const getCurrentItems = (): IGenericTile[] => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return currentFilter.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   };
 
   const skeletons: JSX.Element[] = Array.from({ length: 10 }).map(
@@ -161,7 +166,7 @@ const DashboardPanel: React.FC = () => {
         </Grid>
       ) : (
         <Grid item xs={12} container justifyContent="center" data-testid="tile">
-          {currentItems.map((p) => (
+          {getCurrentItems().map((p) => (
             <Tile
               key={`${p.id}_${p.type}_tile`}
               onClick={() => handleGoToDetail(p.id, p.type)}
@@ -171,15 +176,12 @@ const DashboardPanel: React.FC = () => {
           ))}
         </Grid>
       )}
-
-      <Grid item xs={12} container justifyContent="center">
-        <Pagination
-          count={totalPageCount}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-        />
-      </Grid>
+      <Pagination
+        count={totalPages}
+        page={currentPage}
+        onChange={handlePageChange}
+        color="primary"
+      />
     </Grid>
   );
 };
