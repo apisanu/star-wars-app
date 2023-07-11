@@ -9,7 +9,16 @@ import { ISpecie } from '../interfaces/ISpecie';
 import { IStarship } from '../interfaces/IStarship';
 import { IVehicle } from '../interfaces/IVehicle';
 
+const cache = window.localStorage;
+const prefix = 'swCache';
+
 async function request(url: string) {
+  const cached = cache.getItem(`${prefix}.${url}`);
+
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
   const headers = {
     accept: 'application/json',
   };
@@ -20,6 +29,8 @@ async function request(url: string) {
 
   const response = await axios.get(url, config);
   const result = response.data;
+
+  cache.setItem(`${prefix}.${url}`, JSON.stringify(result));
 
   return result;
 }
@@ -70,8 +81,8 @@ class Resource<S> {
   }
 }
 
-function createCollection<T>(resource: ResourcesType) {
-  return class ApiCollection {
+function collectionBuilder<T>(resource: ResourcesType) {
+  return class SWCollection {
     static root = `https://swapi.dev/api/${resource}/`;
     public resources: Resource<T>[] = [];
 
@@ -91,20 +102,20 @@ function createCollection<T>(resource: ResourcesType) {
 
     static getPage(page: number = 1, search?: string) {
       if (search) {
-        return request(`${ApiCollection.root}?page=${page}&search=${search}`);
+        return request(`${SWCollection.root}?page=${page}&search=${search}`);
       }
 
-      return request(`${ApiCollection.root}?page=${page}`);
+      return request(`${SWCollection.root}?page=${page}`);
     }
 
     public static async find(predicate?: (single: T) => boolean) {
-      const { count, results: firstResult } = await ApiCollection.getPage();
+      const { count, results: firstResult } = await SWCollection.getPage();
       const pages = Math.ceil(count / firstResult.length);
       const left = Array.from(
         {
           length: pages - 1,
         },
-        (_, i) => ApiCollection.getPage(2 + i)
+        (_, i) => SWCollection.getPage(2 + i)
       );
       const restResults = await Promise.all(left);
 
@@ -117,7 +128,7 @@ function createCollection<T>(resource: ResourcesType) {
         return [...allResults, ...results];
       }, []);
 
-      return new ApiCollection(_.filter(totalResults, predicate));
+      return new SWCollection(_.filter(totalResults, predicate));
     }
 
     public static async findBySearch(predicate: string[]) {
@@ -125,7 +136,7 @@ function createCollection<T>(resource: ResourcesType) {
         predicate.map((query) => this.getPage(1, query))
       );
 
-      return new ApiCollection(_.flatMap(pages, 'results'));
+      return new SWCollection(_.flatMap(pages, 'results'));
     }
   };
 }
@@ -152,9 +163,9 @@ export const getOne = async (
   };
 };
 
-export const Films = createCollection<IFilm>(ResourcesType.Films);
-export const People = createCollection<IPeople>(ResourcesType.People);
-export const Planets = createCollection<IPlanet>(ResourcesType.Planets);
-export const Species = createCollection<ISpecie>(ResourcesType.Species);
-export const Starships = createCollection<IStarship>(ResourcesType.Starships);
-export const Vehicles = createCollection<IVehicle>(ResourcesType.Vehicles);
+export const Films = collectionBuilder<IFilm>(ResourcesType.Films);
+export const People = collectionBuilder<IPeople>(ResourcesType.People);
+export const Planets = collectionBuilder<IPlanet>(ResourcesType.Planets);
+export const Species = collectionBuilder<ISpecie>(ResourcesType.Species);
+export const Starships = collectionBuilder<IStarship>(ResourcesType.Starships);
+export const Vehicles = collectionBuilder<IVehicle>(ResourcesType.Vehicles);
