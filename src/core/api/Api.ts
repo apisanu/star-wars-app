@@ -9,15 +9,9 @@ import { ISpecie } from '../interfaces/ISpecie';
 import { IStarship } from '../interfaces/IStarship';
 import { IVehicle } from '../interfaces/IVehicle';
 
-const cache = window.localStorage;
 const prefix = 'swCache';
 
 async function request(url: string) {
-  const cached = cache.getItem(`${prefix}.${url}`);
-
-  if (cached) {
-    return JSON.parse(cached);
-  }
 
   const headers = {
     accept: 'application/json',
@@ -29,8 +23,6 @@ async function request(url: string) {
 
   const response = await axios.get(url, config);
   const result = response.data;
-
-  cache.setItem(`${prefix}.${url}`, JSON.stringify(result));
 
   return result;
 }
