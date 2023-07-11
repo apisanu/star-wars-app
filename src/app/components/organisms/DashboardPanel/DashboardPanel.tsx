@@ -136,16 +136,18 @@ const DashboardPanel: React.FC = () => {
       className={styles.dashboardContainer}
       data-testid="dashboard-panel"
     >
-      <Grid data-testid="filter-chips">
+      <Grid item data-testid="filter-chips">
         <FilterChips onChipClick={handleChipClick} />
       </Grid>
-      <Search
-        data={currentFilter}
-        dataStandard={standardCurrentFilter}
-        reset={resetSearch}
-        onSearchResult={handleSearch}
-      />
-      <Grid data-testid="tile">
+      <Grid item data-testid="filter-chips">
+        <Search
+          data={currentFilter}
+          dataStandard={standardCurrentFilter}
+          reset={resetSearch}
+          onSearchResult={handleSearch}
+        />
+      </Grid>
+      <Grid item xs={12} container justifyContent="center" data-testid="tile">
         {currentItems.map((p) => (
           <Tile
             key={`${p.id}_${p.type}_tile`}
@@ -156,12 +158,14 @@ const DashboardPanel: React.FC = () => {
         ))}
       </Grid>
 
-      <Pagination
-        count={totalPageCount}
-        page={currentPage}
-        onChange={handlePageChange}
-        color="primary"
-      />
+      <Grid item xs={12} container justifyContent="center">
+        <Pagination
+          count={totalPageCount}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Grid>
     </Grid>
   );
 };
