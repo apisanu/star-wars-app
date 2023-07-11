@@ -8,7 +8,7 @@ import { ISpecie } from '../../../../core/interfaces/ISpecie';
 import { IStarship } from '../../../../core/interfaces/IStarship';
 import { IVehicle } from '../../../../core/interfaces/IVehicle';
 import FilterChips from '../../molecules/filterList/FilterList';
-import { Grid, Pagination } from '@mui/material';
+import { Box, Grid, Pagination, Skeleton } from '@mui/material';
 import Tile from '../../atoms/tile/Tile';
 import {
   filterVoicesValue,
@@ -35,7 +35,7 @@ const DashboardPanel: React.FC = () => {
   const [standardCurrentFilter, setStandardCurrentFilter] = useState<
     IGenericTile[]
   >([]);
-  const [defaultFilter, setDefaultFilter] = useState<IGenericTile[]>([]);
+  const [defaultFilter, setDefaultFilter] = useState<IGenericTile[] | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,8 +81,8 @@ const DashboardPanel: React.FC = () => {
     setCurrentPage(1);
     setResetSearch(1);
     if (value === filterVoicesValue.ALL) {
-      setCurrentFilter(defaultFilter);
-      setStandardCurrentFilter(defaultFilter);
+      setCurrentFilter(defaultFilter as IGenericTile[]);
+      setStandardCurrentFilter(defaultFilter as IGenericTile[]);
     } else {
       setCurrentFilter(
         mergeArrays(
@@ -129,6 +129,18 @@ const DashboardPanel: React.FC = () => {
     setCurrentFilter(result);
   };
 
+  const skeletons: JSX.Element[] = Array.from({ length: 10 }).map((val, index) => (
+    <Box key={index} padding={2}>
+      <Skeleton
+        variant="rectangular"
+        animation="wave"
+        width={1160}
+        height={49}
+        sx={{ borderRadius: '5px' }}
+      />
+    </Box>
+  ));
+
   return (
     <Grid
       container
@@ -147,16 +159,22 @@ const DashboardPanel: React.FC = () => {
           onSearchResult={handleSearch}
         />
       </Grid>
-      <Grid item xs={12} container justifyContent="center" data-testid="tile">
-        {currentItems.map((p) => (
-          <Tile
-            key={`${p.id}_${p.type}_tile`}
-            onClick={() => handleGoToDetail(p.id, p.type)}
-            icon={selectIcon(p.type)}
-            section={p.section}
-          />
-        ))}
-      </Grid>
+      {defaultFilter === null ? (
+        <Grid item xs={12} container justifyContent="center" data-testid="tile">
+          {skeletons}
+        </Grid>
+      ) : (
+        <Grid item xs={12} container justifyContent="center" data-testid="tile">
+          {currentItems.map((p) => (
+            <Tile
+              key={`${p.id}_${p.type}_tile`}
+              onClick={() => handleGoToDetail(p.id, p.type)}
+              icon={selectIcon(p.type)}
+              section={p.section}
+            />
+          ))}
+        </Grid>
+      )}
 
       <Grid item xs={12} container justifyContent="center">
         <Pagination
